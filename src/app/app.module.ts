@@ -17,6 +17,7 @@ import { DataTablesModule } from 'angular-datatables';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HomeComponent } from './home/home.component';
+import { GameComponent } from './game/game.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { HomeComponent } from './home/home.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    GameComponent
   ],
   imports: [
     BrowserModule,

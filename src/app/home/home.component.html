@@ -37,7 +37,7 @@
         <td>{{countrie.name}}</td>
         <td>{{countrie.capital}}</td>
         <td>{{countrie.languages[0].name}}</td>
-        <td>{{countrie.population}} Habitants</td>
+        <td>{{countrie.population}} </td>
         <td> <button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content,countrie.name)">Voir Plus</button> </td>
       </tr>
     </tbody>
@@ -47,32 +47,35 @@
 
 
 <!-- country modal  -->
-<ng-template #content let-modal>
+<ng-template #content let-modal >
   <div class="modal-header">
-    <h4 class="modal-title">Details Sur Le Pays</h4>
+    <h4 class="modal-title text-center text-danger" *ngIf="selectedCountrie" >{{selectedCountrie.name}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body" *ngIf="selectedCountrie">
-    <h1 class="text-center text-danger">{{selectedCountrie.name}}</h1>
+    <!-- <h1 class="text-center text-danger">{{selectedCountrie.name}}</h1> -->
     <div class="row">
       <div class="col">
-        <i class="fas fa-map-marker"></i>
-        {{selectedCountrie.region}}
+        <i class="fas fa-map-marker fa-2x"></i>
+        <span> REGION : </span> {{selectedCountrie.region}}
       </div>
       <div class="col">
-        <i class="fas fa-phone-square"></i>
-        <span *ngFor="let code of selectedCountrie.callingCodes"> {{code}}</span>
+        <i class="fas fa-phone-square fa-2x"></i>
+        <span> INDICATIF TELEPHONIQUE : </span> <span *ngFor="let code of selectedCountrie.callingCodes"> + {{code}}</span>
       </div>
-
+    </div>
+    <br/>
+    <div class="row">
       <div class="col">
-        <i class="fas fa-5x fa-users"></i>
-        {{selectedCountrie.population}}
+        <i class="fas fa-2x fa-users"></i>
+          <span> POPULATION : </span>{{selectedCountrie.population }}
       </div>
       <div class="col">
-        <i class="fas fa-phone-square"></i>
-        <span *ngFor="let code of selectedCountrie.callingCodes"> {{code}}</span>
+        <i class="fas fa-money-bill-alt fa-2x"></i>
+        <span>DEVISES : </span>
+        <span *ngFor="let money of selectedCountrie.currencies"> {{money.name}}  {{money.symbol}} </span>
       </div>
     </div>
   </div>
