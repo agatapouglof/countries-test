@@ -12,11 +12,11 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/cli": "~6.2.3",
-    "@angular/compiler-cli": "^6.1.0",
     "@angular/animations": "^6.1.0",
+    "@angular/cli": "~6.2.3",
     "@angular/common": "^6.1.0",
     "@angular/compiler": "^6.1.0",
+    "@angular/compiler-cli": "^6.1.0",
     "@angular/core": "^6.1.0",
     "@angular/forms": "^6.1.0",
     "@angular/http": "^6.1.0",
@@ -29,6 +29,7 @@
     "core-js": "^2.5.4",
     "datatables.net": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
+    "express": "^4.16.4",
     "jquery": "^3.3.1",
     "rxjs": "~6.2.0",
     "rxjs-compat": "^6.3.3",
@@ -58,7 +59,7 @@
     "typescript": "~2.9.2"
   },
   "engines": {
-   "node": "8.12.0",
-   "npm": "6.4.1"
+    "node": "8.12.0",
+    "npm": "6.4.1"
   }
 }
