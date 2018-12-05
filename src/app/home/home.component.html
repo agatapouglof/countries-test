@@ -17,114 +17,66 @@
     </div>
 </div>
 
+<div class="container">
 
-<table datatable class="row-border hover">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>First name</th>
-      <th>Last name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>Foo</td>
-      <td>Bar</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Someone</td>
-      <td>Youknow</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>Iamout</td>
-      <td>Ofinspiration</td>
-    </tr>
-    <tr>
-      <td>4</td>
-      <td>Yoda</td>
-      <td>Skywalker</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td>Patrick</td>
-      <td>Dupont</td>
-    </tr>
-    <tr>
-      <td>6</td>
-      <td>Barack</td>
-      <td>Obama</td>
-    </tr>
-    <tr>
-      <td>7</td>
-      <td>François</td>
-      <td>Holland</td>
-    </tr>
-    <tr>
-      <td>8</td>
-      <td>Michel</td>
-      <td>Popo</td>
-    </tr>
-    <tr>
-      <td>9</td>
-      <td>Chuck</td>
-      <td>Norris</td>
-    </tr>
-    <tr>
-      <td>10</td>
-      <td>Simon</td>
-      <td>Robin</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>Louis</td>
-      <td>Lin</td>
-    </tr>
-    <tr>
-      <td>12</td>
-      <td>Zelda</td>
-      <td>Link</td>
-    </tr>
-  </tbody>
-</table>
+  <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr>
+        <th>Drapeau</th>
+        <th>Pays</th>
+        <th>Capitale</th>
+        <th>Langue</th>
+        <th>Population</th>
+        <th>Options</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let countrie of countries">
+        <!-- <td>     <img  src="https://www.countryflags.io/{{countrie.alpha2Code}}/flat/64.png" alt="drapeau du pays"> </td> -->
+        <td>     <img  src="{{countrie.flag}}" alt="drapeau du pays" height="64" width="64"> </td>
+        <td>{{countrie.name}}</td>
+        <td>{{countrie.capital}}</td>
+        <td>{{countrie.languages[0].name}}</td>
+        <td>{{countrie.population}} Habitants</td>
+        <td> <button class="btn btn-outline-primary mb-2 mr-2" (click)="openLg(content,countrie.name)">Voir Plus</button> </td>
+      </tr>
+    </tbody>
+  </table>
 
-<!-- <img src="https://www.countryflags.io/br/flat/64.png"> -->
+</div>
 
 
-<!-- <div class="card-deck" *ngIf="countries"> -->
-  <!-- <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div> -->
-  <div class="card" *ngFor="let countrie of countries">
+<!-- country modal  -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Details Sur Le Pays</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="selectedCountrie">
+    <h1 class="text-center text-danger">{{selectedCountrie.name}}</h1>
+    <div class="row">
+      <div class="col">
+        <i class="fas fa-map-marker"></i>
+        {{selectedCountrie.region}}
+      </div>
+      <div class="col">
+        <i class="fas fa-phone-square"></i>
+        <span *ngFor="let code of selectedCountrie.callingCodes"> {{code}}</span>
+      </div>
 
-    <div class="card-body">
-      <img  src="https://www.countryflags.io/{{countrie.alpha2Code}}/flat/64.png" alt="drapeau du pays">
-      <h5 class="card-title">{{countrie.name}}</h5>
-      <p class="card-text">
-        Capital  : {{countrie.capital}}
-      </p>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
+      <div class="col">
+        <i class="fas fa-5x fa-users"></i>
+        {{selectedCountrie.population}}
+      </div>
+      <div class="col">
+        <i class="fas fa-phone-square"></i>
+        <span *ngFor="let code of selectedCountrie.callingCodes"> {{code}}</span>
+      </div>
     </div>
   </div>
-  <!-- <div class="card">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-    </div>
-    <div class="card-footer">
-      <small class="text-muted">Last updated 3 mins ago</small>
-    </div>
-  </div> -->
-<!-- </div> -->
+  <div class="modal-footer">
+    <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Fermer</button>
+  </div>
+</ng-template>

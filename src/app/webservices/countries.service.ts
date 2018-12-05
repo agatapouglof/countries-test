@@ -21,4 +21,11 @@ export class CountriesService {
     )
   }
 
+  getCountriesByName(name:string){
+    return this.http.get(this.restcountriesapi+'/name/'+name)
+    .map(
+      res => res.json()
+    )
+  }
+
 }
