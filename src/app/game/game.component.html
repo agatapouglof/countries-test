@@ -27,7 +27,8 @@
 
   <div class="row" style="margin-bottom : 50px;">
     <div class="col text-center" *ngFor="let ans of answers">
-      <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)">{{ans}}</button>
+      <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)" *ngIf="ans != ''">{{ans}}</button>
+      <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)" *ngIf="ans == ''">NEAN</button>
     </div>
 
   </div>

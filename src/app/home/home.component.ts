@@ -8,6 +8,9 @@ import 'rxjs/add/operator/map';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { Router,RouterModule, CanActivate } from '@angular/router';
+
+
 
 
 
@@ -30,7 +33,7 @@ export class HomeComponent implements OnDestroy, OnInit {
 
 
 
-  constructor(private countriesService:CountriesService, private modalService: NgbModal) { }
+  constructor(private countriesService:CountriesService, private modalService: NgbModal, private router:Router) { }
 
   ngOnInit() {
     this.dtOptions = {

@@ -14,6 +14,7 @@ export class GameComponent implements OnInit {
   answers : any = [];
   total : number = 0;
   goodAnswer : string;
+  questionsNumber : number = 0;
 
   constructor(private countriesService:CountriesService) { }
 
@@ -52,18 +53,15 @@ export class GameComponent implements OnInit {
   setPropositionsReponses(){
     let i = 0;
     this.answers  = [];
+    this.answers.push(this.goodAnswer);
     while (i < 4){
       let cap = this.countries[this.randomNumber(0,249)].capital
-      // console.log(cap);
       if(this.answers.indexOf(cap) == -1) {
         this.answers.push(cap);
         i++;
       }
     }
-    this.answers.push(this.goodAnswer);
-    console.log(this.answers);
     this.answers = this.shuffle(this.answers);
-    console.log(this.answers);
   }
 
   shuffle(array) {
