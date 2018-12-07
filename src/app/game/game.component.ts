@@ -20,6 +20,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this.loadCountries();
+    this.showRandom();
   }
 
   loadCountries(){

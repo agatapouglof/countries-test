@@ -6,14 +6,10 @@ import { Subject } from 'rxjs';
 
 import 'rxjs/add/operator/map';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router,RouterModule, CanActivate } from '@angular/router';
-
-
-
-
-
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -31,9 +27,16 @@ export class HomeComponent implements OnDestroy, OnInit {
 
   closeResult: string;
 
+  items: Observable<any[]>;
 
 
-  constructor(private countriesService:CountriesService, private modalService: NgbModal, private router:Router) { }
+
+  constructor(private countriesService:CountriesService,
+    private modalService: NgbModal,
+    private router:Router,
+    public db: AngularFireDatabase) {
+      // this.db.list('/messages').push({ message: "test" });
+     }
 
   ngOnInit() {
     this.dtOptions = {
