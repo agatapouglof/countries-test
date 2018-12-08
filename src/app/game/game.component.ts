@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CountriesService } from "../webservices/countries.service";
 import { AngularFireDatabase } from 'angularfire2/database';
+
 import { Observable } from 'rxjs';
 
 
@@ -26,12 +27,48 @@ export class GameComponent implements OnInit {
   questionIndex = 1;
   inGame = false;
   user : any;
+  bestScores : any = [];
+  allScores : any;
 
 
-  constructor(private countriesService:CountriesService, public db: AngularFireDatabase) { }
+  constructor(private countriesService:CountriesService, public db: AngularFireDatabase) {
+    // this.bestScores = this.db.list<any>('scores',ref => ref.orderByChild('score'));
+    this.allScores = db.list('scores').valueChanges();
+
+
+  }
 
   ngOnInit() {
     // var user = firebase.auth().currentUser;
+
+    // this.bestScores = this.db.list('scores',ref => ref.orderByChild('score')).limitToLast(3).valueChanges();
+    // const ref = firebase.database().ref('scores');
+    // this.bestScores = ref.orderBy('score','desc').limit(3);
+    let self = this;
+
+    // this.bestScores = this.db.list('/scores', ref =>
+    //   // ref.limitToLast(1)
+    //   ref.orderByChild('score').on("value", function(snapshot) {
+    //     snapshot.forEach(function(data) {
+    //       self.bestScores.push(data.val());
+    //       console.log("The " + data.key + " score is " + data.val());
+    //     });
+
+      // ref.orderByValue()
+    // )
+    // .valueChanges();
+    // orderByValue
+    // this.bestScores = this.db.list('/scores', ref => ref.orderBy('score')).valueChanges();
+
+    // this.bestScores = this.db.list('/scores', {
+    //   query: {
+    //     orderByChild: 'score'
+    //   }
+    // });
+
+    console.log(this.bestScores)
+
+
     if (localStorage.length > 0) {
       this.user =  JSON.parse(localStorage.getItem("user"));
     } else {
@@ -64,7 +101,7 @@ export class GameComponent implements OnInit {
     if(this.user){
       let time = Date.now();
       console.log(time);
-      this.db.list('/scores').push({ "user": this.user.uid, "score" : this.score, "time" : time});
+      this.db.list('/scores').push({ "score" : this.score, "time" : time, "user" : this.user});
 
     }
   }
