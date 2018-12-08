@@ -16,7 +16,8 @@ import { DataTablesModule } from 'angular-datatables';
 // firebase
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFirestoreModule,AngularFirestore } from 'angularfire2/firestore';
+
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { environment } from '../environments/environment';
@@ -56,7 +57,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
     AngularFireAuthModule,
     NgbModule.forRoot()
   ],
-  providers: [AuthService, NgbActiveModal],
+  providers: [AuthService, NgbActiveModal, AngularFirestore],
   bootstrap: [AppComponent],
   entryComponents: [
     InscriptionComponent

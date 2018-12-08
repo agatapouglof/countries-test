@@ -1,35 +1,91 @@
 <div class="container">
-  <div class="float-right text-primary ">
-    <p>
-      <span class="font-weight-bold">SCORE : </span> <span class="text-danger"> {{total}}</span>
-    </p>
-  </div>
-
-  <button type="button" name="button" class="btn btn-primary" (click)="showRandom()">RANDOM COUNTRY</button>
-
-
-  <div class="card" *ngIf="randomCountry">
-    <div class="card-header">
-      COUNTRY
+<div class="row">
+  <div class="col-md-9 order-md-1 mb-9">
+    <div class="" style="margin:20px;">
+      <button type="button" name="button" class="btn btn-primary" (click)="startGame()" *ngIf="!inGame">COMMENCER UNE PARTIE </button>
     </div>
-    <div class="card-body text-center">
-      <h5 class="card-title">{{randomCountry.name}} <img  src="{{randomCountry.flag}}" alt="drapeau du pays" height="64" width="64"></h5>
-      <p class="card-text">
-        Capitale :  ?????
-        <!-- {{randomCountry.capital}}  -->
-        <br/>
-        Devise : {{randomCountry.currencies[0].name}}
-      </p>
-      <a class="btn btn-primary" (click)="showRandom()">Go somewhere Else</a>
-    </div>
-  </div>
-  <h3 class="text-center text-success"> REPONSE </h3>
-
-  <div class="row" style="margin-bottom : 50px;">
-    <div class="col text-center" *ngFor="let ans of answers">
-      <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)" *ngIf="ans != ''">{{ans}}</button>
-      <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)" *ngIf="ans == ''">NEAN</button>
+    <div class="card" *ngIf="randomCountry">
+      <div class="card-header">
+        COUNTRY
+      </div>
+      <div class="card-body text-center">
+        <h5 class="card-title">{{randomCountry.name}} <img  src="{{randomCountry.flag}}" alt="drapeau du pays" height="64" width="64"></h5>
+        <p class="card-text">
+          Capitale :  ?????
+          <!-- {{randomCountry.capital}}  -->
+          <br/>
+          Devise : {{randomCountry.currencies[0].name}}
+        </p>
+        <!-- <a class="btn btn-primary" (click)="showRandom()">Go somewhere Else</a> -->
+      </div>
     </div>
 
+
+    <h3 class="text-center text-success" *ngIf="inGame"> REPONSES </h3>
+
+    <div class="row" style="margin-bottom : 50px;" *ngIf="inGame">
+      <div class="col text-center" *ngFor="let ans of answers">
+        <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)" *ngIf="ans != ''">{{ans}}</button>
+        <button type="button" name="button" class="btn btn-primary" (click)="repondre(ans)" *ngIf="ans == ''">NEAN</button>
+      </div>
+    </div>
   </div>
+
+  <div class="col-md-3 order-md-2 mb-3">
+
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <!-- <span class="text-muted">Your cart</span> -->
+      <!-- <span class="badge badge-secondary badge-pill">3</span> -->
+      <!-- <div class="float-right text-primary "> -->
+        <p>
+          <span class="font-weight-bold">SCORE : </span> <span class="text-danger"> {{score}} / 20</span> <br/>
+          <span class="font-weight-bold">QUESTIONS : </span> <span class="text-danger"> {{ questionIndex }} / {{questionsNumber}}</span>
+        </p>
+      <!-- </div> -->
+    </h4>
+    <div class="row" *ngIf="user">
+      <div class="col-12">
+        {{user.name}}
+        <img class="img-fluid img-thumbnail rounded" src="{{user.image}}" alt="" height="75" width="75">
+      </div>
+    </div>
+    <ul class="list-group mb-3">
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+          <h6 class="my-0">Product name</h6>
+          <small class="text-muted">Brief description</small>
+        </div>
+        <span class="text-muted">$12</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+          <h6 class="my-0">Second product</h6>
+          <small class="text-muted">Brief description</small>
+        </div>
+        <span class="text-muted">$8</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between lh-condensed">
+        <div>
+          <h6 class="my-0">Third item</h6>
+          <small class="text-muted">Brief description</small>
+        </div>
+        <span class="text-muted">$5</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between bg-light">
+        <div class="text-success">
+          <h6 class="my-0">Promo code</h6>
+          <small>EXAMPLECODE</small>
+        </div>
+        <span class="text-success">-$5</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between">
+        <span>Total (USD)</span>
+        <strong>$20</strong>
+      </li>
+    </ul>
+
+</div>
+
+
+
 </div>

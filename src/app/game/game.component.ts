@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { CountriesService } from "../webservices/countries.service"
+import { CountriesService } from "../webservices/countries.service";
+import { AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs';
+
+
+import * as firebase from 'firebase/app';
+import * as moment from "moment";
+
+
 
 
 @Component({
@@ -12,16 +20,27 @@ export class GameComponent implements OnInit {
   countries :any;
   randomCountry : any;
   answers : any = [];
-  total : number = 0;
+  score : number = 0;
   goodAnswer : string;
-  questionsNumber : number = 0;
+  questionsNumber : number = 20;
+  questionIndex = 1;
+  inGame = false;
+  user : any;
 
-  constructor(private countriesService:CountriesService) { }
+
+  constructor(private countriesService:CountriesService, public db: AngularFireDatabase) { }
 
   ngOnInit() {
+    // var user = firebase.auth().currentUser;
+    if (localStorage.length > 0) {
+      this.user =  JSON.parse(localStorage.getItem("user"));
+    } else {
+      console.log("no user in localStorage")
+    }
+
     this.loadCountries();
-    this.showRandom();
   }
+
 
   loadCountries(){
     this.countriesService.getAllCountries().subscribe(
@@ -34,21 +53,45 @@ export class GameComponent implements OnInit {
   randomNumber(min, max){
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+  startGame(){
+    this.questionIndex = 1;
+    this.score = 0;
+    this.inGame = true;
+    this.showRandom();
+  }
+
+  saveScore(){
+    if(this.user){
+      let time = Date.now();
+      console.log(time);
+      this.db.list('/scores').push({ "user": this.user.uid, "score" : this.score, "time" : time});
+
+    }
+  }
 
   showRandom(){
     let n = this.randomNumber(0,249);
     this.randomCountry = this.countries[n];
     this.goodAnswer = this.randomCountry.capital;
     this.setPropositionsReponses();
-    // this.total++;
-    console.log(this.countries[n]);
+    // this.score++;
+    // console.log(this.countries[n]);
   }
 
   repondre(rep:string){
-    console.log(rep)
-    console.log(this.goodAnswer)
-    if(rep == this.goodAnswer) this.total++;
-    this.showRandom();
+    if(this.questionIndex == 20){
+      this.inGame = false;
+      this.saveScore();
+      console.log("le score final est");
+      console.log(this.score);
+    }else{
+      // console.log(rep)
+      // console.log(this.goodAnswer)
+      if(rep == this.goodAnswer) this.score++;
+      this.showRandom();
+      this.questionIndex++;
+    }
+
   }
 
   setPropositionsReponses(){

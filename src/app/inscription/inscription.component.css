@@ -1,4 +1,4 @@
-.header{
+/* .header{
   text-align: center;
   font-size: 30px;
   margin-bottom: 40px;
@@ -10,4 +10,9 @@
 
 .error{
   color: red;
+} */
+
+.btg{
+  margin-top:  15px;
+  margin-bottom: 15px;
 }

@@ -40,28 +40,24 @@ export class InscriptionComponent implements OnInit {
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then(res => {
-      this.router.navigate(['/user']);
+      console.log("res");
+      console.log(res);
+      // this.router.navigate(['/game']);
     })
   }
 
-  tryTwitterLogin(){
-    this.authService.doTwitterLogin()
-    .then(res => {
-      this.router.navigate(['/user']);
-    })
-  }
 
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then(res => {
-      this.router.navigate(['/user']);
+      this.router.navigate(['/game']);
     })
   }
 
   tryLogin(value){
     this.authService.doLogin(value)
     .then(res => {
-      this.router.navigate(['/user']);
+      this.router.navigate(['/game']);
     }, err => {
       console.log(err);
       this.errorMessage = err.message;
