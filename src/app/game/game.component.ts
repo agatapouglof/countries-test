@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CountriesService } from "../webservices/countries.service";
 import { AngularFireDatabase } from 'angularfire2/database';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 
 
 import * as firebase from 'firebase/app';
@@ -18,6 +19,8 @@ import * as moment from "moment";
   providers:[CountriesService]
 })
 export class GameComponent implements OnInit {
+  private _success = new Subject<string>();
+  private _error = new Subject<string>();
   countries :any;
   randomCountry : any;
   answers : any = [];
@@ -27,55 +30,44 @@ export class GameComponent implements OnInit {
   questionIndex = 1;
   inGame = false;
   user : any;
-  bestScores : any = [];
-  allScores : any;
+  bestScores : any =[];
+  allScores : any = [];
+  staticAlertClosed = false;
+  successMessage: string;
+  errorMessage: string;
 
 
   constructor(private countriesService:CountriesService, public db: AngularFireDatabase) {
-    // this.bestScores = this.db.list<any>('scores',ref => ref.orderByChild('score'));
     this.allScores = db.list('scores').valueChanges();
+    db.list('scores').valueChanges().subscribe(items => {
+        this.bestScores = items;
+        this.getBestScores();
 
+    });
 
   }
 
   ngOnInit() {
-    // var user = firebase.auth().currentUser;
-
-    // this.bestScores = this.db.list('scores',ref => ref.orderByChild('score')).limitToLast(3).valueChanges();
-    // const ref = firebase.database().ref('scores');
-    // this.bestScores = ref.orderBy('score','desc').limit(3);
-    let self = this;
-
-    // this.bestScores = this.db.list('/scores', ref =>
-    //   // ref.limitToLast(1)
-    //   ref.orderByChild('score').on("value", function(snapshot) {
-    //     snapshot.forEach(function(data) {
-    //       self.bestScores.push(data.val());
-    //       console.log("The " + data.key + " score is " + data.val());
-    //     });
-
-      // ref.orderByValue()
-    // )
-    // .valueChanges();
-    // orderByValue
-    // this.bestScores = this.db.list('/scores', ref => ref.orderBy('score')).valueChanges();
-
-    // this.bestScores = this.db.list('/scores', {
-    //   query: {
-    //     orderByChild: 'score'
-    //   }
-    // });
-
-    console.log(this.bestScores)
-
 
     if (localStorage.length > 0) {
       this.user =  JSON.parse(localStorage.getItem("user"));
     } else {
       console.log("no user in localStorage")
     }
-
     this.loadCountries();
+
+    // initialize success pop up
+    this._success.subscribe((message) => this.successMessage = message);
+    this._success.pipe(
+      debounceTime(5000)
+    ).subscribe(() => this.successMessage = null);
+
+    // initialize error pop up
+    this._error.subscribe((message) => this.errorMessage = message);
+    this._error.pipe(
+      debounceTime(5000)
+    ).subscribe(() => this.errorMessage = null);
+    // this.changeSuccessMessage();
   }
 
 
@@ -124,7 +116,12 @@ export class GameComponent implements OnInit {
     }else{
       // console.log(rep)
       // console.log(this.goodAnswer)
-      if(rep == this.goodAnswer) this.score++;
+      if(rep == this.goodAnswer){
+        this.score++;
+        this.changeSuccessMessage();
+      }else{
+        this.changeErrorMessage()
+      }
       this.showRandom();
       this.questionIndex++;
     }
@@ -158,5 +155,22 @@ export class GameComponent implements OnInit {
 
     return array;
   }
+
+  getBestScores(){
+    if(this.bestScores){
+      this.bestScores.sort(function(a, b){return Number(b.score) - Number(a.score)});
+      this.bestScores = this.bestScores.slice(0,5);
+    }
+  }
+
+  public changeSuccessMessage() {
+    this.errorMessage = null;
+    this._success.next("  Félicitations Bonne Reponse .");
+  }
+  public changeErrorMessage() {
+    this.successMessage = null
+    this._error.next("  Désole Mauvaise Reponse !");
+  }
+
 
 }

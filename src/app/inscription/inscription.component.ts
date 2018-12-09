@@ -51,6 +51,7 @@ export class InscriptionComponent implements OnInit {
     this.authService.doGoogleLogin()
     .then(res => {
       this.router.navigate(['/game']);
+      this.activeModal.close();
     })
   }
 

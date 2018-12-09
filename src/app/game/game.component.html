@@ -9,21 +9,43 @@
 <div class="row">
   <div class="col-md-9 order-md-1 mb-9">
     <div class="" style="margin:20px;">
-      <button type="button" name="button" class="btn btn-primary" (click)="startGame()" *ngIf="!inGame">COMMENCER UNE PARTIE </button>
+      <button type="button" name="button" class="btn btn-primary" (click)="startGame()" *ngIf="!inGame"> <i class="fas fa-play"></i> COMMENCER UNE PARTIE </button>
     </div>
     <div class="card" *ngIf="randomCountry">
+
       <div class="card-header">
         COUNTRY
       </div>
       <div class="card-body text-center">
-        <h5 class="card-title">{{randomCountry.name}} <img  src="{{randomCountry.flag}}" alt="drapeau du pays" height="64" width="64"></h5>
-        <p class="card-text">
-          Capitale :  ?????
-          <!-- {{randomCountry.capital}}  -->
-          <br/>
-          Devise : {{randomCountry.currencies[0].name}}
-        </p>
-        <!-- <a class="btn btn-primary" (click)="showRandom()">Go somewhere Else</a> -->
+        <div class="" *ngIf="inGame">
+          <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null"> <i class="fas fa-thumbs-up"></i> {{ successMessage }}</ngb-alert>
+          <ngb-alert *ngIf="errorMessage" type="danger" (close)="errorMessage = null"> <i class="fas fa-thumbs-down"></i> {{ errorMessage }}</ngb-alert>
+
+          <h5 class="card-title"><img  src="{{randomCountry.flag}}" alt="drapeau du pays" height="64" width="64"></h5>
+          <h3>{{randomCountry.name}} </h3>
+          <p class="card-text">
+            Capitale :  ?????
+            <!-- {{randomCountry.capital}}  -->
+            <br/>
+            Devise : {{randomCountry.currencies[0].name}}
+          </p>
+        </div>
+
+        <div class="container-fluid" *ngIf="!inGame && questionIndex > 0">
+          <div class="text-success text-center text-capitalize">
+            <div class="" style="margin-bottom : 30px;">
+            <i class="fas fa-check-circle fa-7x" ></i>
+          </div>
+            <div class="row">
+              <div class="col-8">
+                <h1> SCORE FINAL  :</h1>
+              </div>
+              <div class="col-4">
+                <h1>{{score}}</h1>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -56,8 +78,9 @@
         <img class="img-fluid img-thumbnail rounded" src="{{user.image}}" alt="" height="75" width="75">
       </div>
     </div>
-    <ul class="list-group mb-3">
-      <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let scr of allScores | async">
+    <ul class="list-group mb-3" *ngIf="bestScores">
+      <!-- <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let scr of allScores | async"> -->
+      <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let scr of bestScores">
         <div>
           <h6 class="my-0 font-weight-bold" *ngIf="scr.user">{{scr.user.name}}
             <img class="img-fluid img-thumbnail rounded" src="{{scr.user.image}}" alt="" height="50" width="50">
