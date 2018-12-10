@@ -11,6 +11,10 @@ import { MessagesComponent } from './messages/messages.component';
 const appRoutes: Routes =[
   {
       path :'',
+      component : GameComponent
+    },
+  {
+      path :'list',
       component : HomeComponent
     },
   {

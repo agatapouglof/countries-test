@@ -30,17 +30,20 @@ export class HeaderComponent implements OnInit {
 
   }
   isConnected(){
-    this.userService.getCurrentUser().then( post => {
-      console.log("post")
-      console.log(post)
-      this.user = post;
-    });
+    this.user =  JSON.parse(localStorage.getItem("user"));
+
+    // this.userService.getCurrentUser().then( post => {
+    //   console.log("post")
+    //   console.log(post)
+    //   this.user = post;
+    // });
   }
   deconnexion(){
     localStorage.removeItem("user");
     this.authService.doLogout()
     .then((res) => {
       this.user = null;
+      this.router.navigate(['/']);
     }, (error) => {
       console.log("Logout error", error);
     });

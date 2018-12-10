@@ -35,7 +35,6 @@ export class HomeComponent implements OnDestroy, OnInit {
     private modalService: NgbModal,
     private router:Router,
     public db: AngularFireDatabase) {
-      // this.db.list('/messages').push({ message: "test" });
      }
 
   ngOnInit() {
@@ -49,10 +48,8 @@ export class HomeComponent implements OnDestroy, OnInit {
   loadCountries(){
     this.countriesService.getAllCountries().subscribe(
       posts => {
-        console.log(posts);
         this.countries = posts;
         this.dtTrigger.next();
-
       }
     );
   }

@@ -40,9 +40,8 @@ export class InscriptionComponent implements OnInit {
   tryFacebookLogin(){
     this.authService.doFacebookLogin()
     .then(res => {
-      console.log("res");
-      console.log(res);
-      // this.router.navigate(['/game']);
+      this.router.navigate(['/list']);
+      this.activeModal.close();
     })
   }
 
@@ -50,7 +49,7 @@ export class InscriptionComponent implements OnInit {
   tryGoogleLogin(){
     this.authService.doGoogleLogin()
     .then(res => {
-      this.router.navigate(['/game']);
+      this.router.navigate(['/list']);
       this.activeModal.close();
     })
   }
@@ -58,7 +57,8 @@ export class InscriptionComponent implements OnInit {
   tryLogin(value){
     this.authService.doLogin(value)
     .then(res => {
-      this.router.navigate(['/game']);
+      this.router.navigate(['/list']);
+      this.activeModal.close();
     }, err => {
       console.log(err);
       this.errorMessage = err.message;

@@ -42,7 +42,6 @@ export class GameComponent implements OnInit {
     db.list('scores').valueChanges().subscribe(items => {
         this.bestScores = items;
         this.getBestScores();
-
     });
 
   }
@@ -67,7 +66,6 @@ export class GameComponent implements OnInit {
     this._error.pipe(
       debounceTime(5000)
     ).subscribe(() => this.errorMessage = null);
-    // this.changeSuccessMessage();
   }
 
 
@@ -92,7 +90,6 @@ export class GameComponent implements OnInit {
   saveScore(){
     if(this.user){
       let time = Date.now();
-      console.log(time);
       this.db.list('/scores').push({ "score" : this.score, "time" : time, "user" : this.user});
 
     }
@@ -103,19 +100,13 @@ export class GameComponent implements OnInit {
     this.randomCountry = this.countries[n];
     this.goodAnswer = this.randomCountry.capital;
     this.setPropositionsReponses();
-    // this.score++;
-    // console.log(this.countries[n]);
   }
 
   repondre(rep:string){
     if(this.questionIndex == 20){
       this.inGame = false;
       this.saveScore();
-      console.log("le score final est");
-      console.log(this.score);
     }else{
-      // console.log(rep)
-      // console.log(this.goodAnswer)
       if(rep == this.goodAnswer){
         this.score++;
         this.changeSuccessMessage();

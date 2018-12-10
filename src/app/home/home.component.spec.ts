@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DataTablesModule } from 'angular-datatables';
+
 
 import { HomeComponent } from './home.component';
 
@@ -8,7 +10,7 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
+      declarations: [ HomeComponent ], imports: [ DataTablesModule ]
     })
     .compileComponents();
   }));

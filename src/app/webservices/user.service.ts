@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import 'rxjs/add/operator/toPromise';
+import { Http, Response, Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import 'rxjs/add/operator/toPromise';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,8 @@ export class UserService {
 
   constructor(
    public db: AngularFirestore,
-   public afAuth: AngularFireAuth
+   public afAuth: AngularFireAuth,
+   private http:Http
  ){
  }
 
@@ -38,5 +41,12 @@ export class UserService {
         resolve(res)
       }, err => reject(err))
     })
+  }
+
+  getUserPosition(){
+    return this.http.get('https://ipapi.co/json/')
+    .map(
+      res => res.json()
+    )
   }
 }

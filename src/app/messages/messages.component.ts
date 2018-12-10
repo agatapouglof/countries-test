@@ -4,8 +4,11 @@ import { Observable } from 'rxjs';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthService } from "../webservices/auth.service";
+import { UserService } from "../webservices/user.service";
 
 import { InscriptionComponent } from '../inscription/inscription.component';
+import * as moment from "moment";
+
 
 
 
@@ -14,19 +17,29 @@ import { InscriptionComponent } from '../inscription/inscription.component';
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css'],
-  providers:[AuthService]
+  providers:[AuthService, UserService]
 })
 export class MessagesComponent implements OnInit {
   messages: Observable<any[]>;
   @ViewChild('myModal')
   modal: InscriptionComponent;
+  position : any;
+  setMessage = false;
+  user : any;
+  message : any;
 
 
-  constructor(public db: AngularFireDatabase, private modalService: NgbModal, public authService: AuthService) {
+  constructor(public db: AngularFireDatabase, private modalService: NgbModal, public authService: AuthService, private userService:UserService) {
     this.messages = db.list('messages').valueChanges();
  }
 
   ngOnInit() {
+    this.getUser();
+    this.userService.getUserPosition().subscribe(
+      posts => {
+        this.position = posts;
+      }
+    );
   }
 
 
@@ -44,6 +57,25 @@ export class MessagesComponent implements OnInit {
     //     this.selectedCountrie = posts[0];
     //   }
     // );
+  }
+  getUser(){
+    if (localStorage.length > 0) {
+      this.user =  JSON.parse(localStorage.getItem("user"));
+    } else {
+      console.log("no user in localStorage")
+    }
+  }
+  seeFormMessage(){
+    if(this.user) this.setMessage = true;
+  }
+  sendMessage(){
+    let tmt = moment();
+
+    if(this.message){
+      this.db.list('/messages').push({ "message": this.message, "city" : this.position.city, "country" : this.position.country_name, "time" : moment().locale('fr').format("LLL"), "user" : this.user });
+      this.setMessage = false;
+    }
+
   }
 
 }
