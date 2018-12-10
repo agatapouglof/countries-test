@@ -35,8 +35,6 @@ export class AuthService {
       this.afAuth.auth
       .signInWithPopup(provider)
       .then(res => {
-        // console.log("res auth")
-        console.log(res.user)
         this.storeUser(res.user)
         resolve(res);
       }, err => {
@@ -78,8 +76,6 @@ export class AuthService {
 
   storeUser(res){
     let user:any = {};
-    console.log("user in store user function")
-    console.log(user)
     if(res.providerData[0].providerId == 'password'){
       user.image = 'http://dsi-vd.github.io/patternlab-vd/images/fpo_avatar.png';
       user.name = res.displayName;

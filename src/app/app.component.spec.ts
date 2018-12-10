@@ -1,13 +1,24 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './shared/footer/header.component';
-import { FooterComponent } from './shared/header/footer.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap' ;
+import { BrowserModule } from '@angular/platform-browser';
+import {HttpModule} from '@angular/http';
+
+
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent
       ],
+      imports: [
+       BrowserModule,
+       HttpModule,
+       NgbModule.forRoot()
+     ],
     }).compileComponents();
   }));
   // it('should create the app', async(() => {

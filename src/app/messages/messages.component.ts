@@ -27,6 +27,7 @@ export class MessagesComponent implements OnInit {
   setMessage = false;
   user : any;
   message : any;
+  errorMessage = null
 
 
   constructor(public db: AngularFireDatabase, private modalService: NgbModal, public authService: AuthService, private userService:UserService) {
@@ -66,13 +67,21 @@ export class MessagesComponent implements OnInit {
     }
   }
   seeFormMessage(){
-    if(this.user) this.setMessage = true;
+    if(this.user) {
+      this.setMessage = true;
+      this.errorMessage = null;
+    }
+    else this.errorMessage = "Connectez vous pour laisser un message"
   }
   sendMessage(){
     let tmt = moment();
 
     if(this.message){
-      this.db.list('/messages').push({ "message": this.message, "city" : this.position.city, "country" : this.position.country_name, "time" : moment().locale('fr').format("LLL"), "user" : this.user });
+      if(this.position){
+        this.db.list('/messages').push({ "message": this.message, "city" : this.position.city, "country" : this.position.country_name, "time" : moment().locale('fr').format("LLL"), "user" : this.user });
+      }else{
+        this.db.list('/messages').push({ "message": this.message, "city" : "NONE", "country" : "NONE", "time" : moment().locale('fr').format("LLL"), "user" : this.user });
+      }
       this.setMessage = false;
     }
 

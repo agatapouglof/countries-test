@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, Input,  OnInit } from '@angular/core';
 
 import { CountriesService } from "../webservices/countries.service"
 
@@ -19,6 +19,8 @@ import { Observable } from 'rxjs';
   providers:[CountriesService]
 })
 export class HomeComponent implements OnDestroy, OnInit {
+  @Input()
+  count: number = 0;
 
   countries:any;
   selectedCountrie : any;
@@ -69,5 +71,9 @@ export class HomeComponent implements OnDestroy, OnInit {
     );
 
   }
+
+  displayCounter(event) {
+     console.log(event);
+ }
 
 }

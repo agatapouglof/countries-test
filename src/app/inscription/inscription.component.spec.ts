@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 import { InscriptionComponent } from './inscription.component';
 
@@ -8,7 +10,8 @@ describe('InscriptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InscriptionComponent ]
+      declarations: [ InscriptionComponent ],
+      imports : [NgbActiveModal,NgbModal]
     })
     .compileComponents();
   }));

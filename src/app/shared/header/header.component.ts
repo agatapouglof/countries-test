@@ -26,17 +26,14 @@ export class HeaderComponent implements OnInit {
 
   connexion(){
     this.modalService.open(InscriptionComponent, { size: 'lg' });
-    this.isConnected();
+    setTimeout( ()=> {
+      this.isConnected();
+    }, 15000 );
 
   }
   isConnected(){
     this.user =  JSON.parse(localStorage.getItem("user"));
 
-    // this.userService.getCurrentUser().then( post => {
-    //   console.log("post")
-    //   console.log(post)
-    //   this.user = post;
-    // });
   }
   deconnexion(){
     localStorage.removeItem("user");

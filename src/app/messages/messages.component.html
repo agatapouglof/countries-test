@@ -1,7 +1,8 @@
 <div class="container">
 	<h2 class="text-success">Laissez nous un message :)</h2><br/>
 	<div class="row">
-    <button class="btn btn-outline-primary mb-2 mr-2" (click)="seeFormMessage()"> AJOUTER UN MESSAGE </button>
+    <button class="btn btn-outline-primary mb-2 mr-2" (click)="seeFormMessage()"> AJOUTER UN MESSAGE </button> <br/>
+		<h5 class="text-danger" *ngIf="this.errorMessage">{{this.errorMessage}}</h5>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<form *ngIf="setMessage">
 			  <div class="form-group">

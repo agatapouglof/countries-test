@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, Output, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from "../webservices/auth.service";
@@ -14,6 +14,8 @@ import { Router, Params } from '@angular/router';
   styleUrls: ['./inscription.component.css']
 })
 export class InscriptionComponent implements OnInit {
+  @Output() valueChange = new EventEmitter();
+  counter = 0;
 
     loginForm: FormGroup;
     errorMessage: string = '';
@@ -25,6 +27,7 @@ export class InscriptionComponent implements OnInit {
      private fb: FormBuilder
    ) {
      this.createForm();
+     this.valueChanged();
    }
 
   ngOnInit() {
@@ -64,5 +67,10 @@ export class InscriptionComponent implements OnInit {
       this.errorMessage = err.message;
     })
   }
+
+  valueChanged() { // You can give any function name
+    this.counter = this.counter + 1;
+    this.valueChange.emit(this.counter);
+}
 
 }
